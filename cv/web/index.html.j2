@@ -1,0 +1,103 @@
+{#- The web page. build.py fills it from the cv: and locale: parts of Arthur_Vardanyan_CV.yaml.
+    The "md" filter turns inline Markdown (**bold**, *italic*, [link](url)) into HTML. -#}
+{%- macro icon(name) -%}
+{%- set icons = {
+  "location": ("0 0 24 24", "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"),
+  "email": ("0 0 24 24", "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"),
+  "phone": ("0 0 24 24", "M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"),
+  "linkedin": ("0 0 24 24", "M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm3.5 4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2zM6.2 10.2V18h2.6v-7.8zm4.4 0V18h2.6v-4.1c0-1.1.4-2 1.6-2s1.4 1 1.4 2V18h2.6v-4.6c0-2.3-.9-3.4-2.9-3.4-1.2 0-2.1.6-2.7 1.4v-1.2z"),
+  "github": ("0 0 16 16", "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"),
+  "download": ("0 0 24 24", "M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"),
+} -%}
+{%- if name in icons -%}
+<svg class="icon" viewBox="{{ icons[name][0] }}" aria-hidden="true"><path fill-rule="evenodd" d="{{ icons[name][1] }}"/></svg>
+{%- endif -%}
+{%- endmacro -%}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>{{ cv.name }} – CV</title>
+<meta name="description" content="{{ description }}">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="{{ cv.name }} – CV">
+<meta property="og:description" content="{{ description }}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23004f90'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3E{{ initials }}%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{{ json_ld }}
+</script>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="top-bar">
+    <p class="top-note">Last updated in {{ updated }}</p>
+    <a class="pdf-button" href="{{ pdf }}" download>{{ icon("download") }}Download PDF</a>
+  </div>
+  <h1>{{ cv.name }}</h1>
+{% if cv.headline %}
+  <p class="headline">{{ cv.headline | md }}</p>
+{% endif %}
+  <ul class="connections">
+{% for name, text, url in links %}
+    <li>{% if url %}<a href="{{ url }}">{{ icon(name) }}{{ text }}</a>{% else %}{{ icon(name) }}{{ text }}{% endif %}</li>
+{% endfor %}
+  </ul>
+</header>
+<main>
+{% for section in sections %}
+<section id="{{ section.id }}">
+  <h2>{{ section.title }}</h2>
+{% for item in section.entries %}
+{% set e = item.entry %}
+{% if item.kind == "text" %}
+  <p class="text-entry">{{ e | md }}</p>
+{% elif item.kind == "one_line" %}
+  <p class="text-entry"><strong>{{ e.label | md }}:</strong> {{ e.details | md }}</p>
+{% elif item.kind == "bullet" %}
+  <ul class="bullet-entry"><li>{{ e.bullet | md }}</li></ul>
+{% else %}
+  <article class="entry">
+    <h3>
+    {%- if item.kind == "experience" %}<strong>{{ e.company | md }}</strong>{% if e.position %}, {{ e.position | md }}{% endif %}
+    {%- elif item.kind == "education" %}{% if e.degree %}<span class="degree">{{ e.degree | md }}</span>{% endif %}<strong>{{ e.institution | md }}</strong>{% if e.area %}, {{ e.area | md }}{% endif %}
+    {%- elif item.kind == "publication" %}<strong>{{ e.title | md }}</strong>
+    {%- else %}<strong>{{ e.name | md }}</strong>{% endif -%}
+    </h3>
+{% if e.location or item.dates %}
+    <p class="entry-side">{% if e.location %}<span>{{ e.location }}</span>{% endif %}{% if item.dates %}<span>{{ item.dates }}</span>{% endif %}</p>
+{% endif %}
+    <div class="entry-body">
+{% if item.kind == "publication" and e.authors %}
+      <p>{{ e.authors | join(", ") | md }}</p>
+{% endif %}
+{% if e.summary %}
+      <p class="summary">{{ e.summary | md }}</p>
+{% endif %}
+{% if e.highlights %}
+      <ul class="highlights">
+{% for highlight in e.highlights %}
+        <li>{{ highlight | md }}</li>
+{% endfor %}
+      </ul>
+{% endif %}
+{% if e.stack %}
+      <p class="stack">{{ e.stack | md }}</p>
+{% endif %}
+    </div>
+  </article>
+{% endif %}
+{% endfor %}
+</section>
+{% endfor %}
+</main>
+<footer>
+  <p>Generated from one YAML file with <a href="https://github.com/rendercv/rendercv">RenderCV</a>
+{%- if source %} · <a href="{{ source }}">Source</a>{% endif %} · <a href="{{ pdf }}">PDF version</a></p>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.8/schema.json
+#
+# Single source of truth for the CV. Edit this file, then run:  python build.py
+# Outputs: rendercv_output/ (PDF, PNG previews, Markdown, Typst source) and site/ (the web page).
+#
+# This file is PUBLIC (GitHub): no phone number, customer names, ticket numbers or security details.
+# The phone number and private notes live in private.yaml, which is never committed. build.py adds the
+# phone to the PDF you build on your machine; without that file the CV renders without it. See README.md.
+#
+# - Markdown works in every text field: **bold**, *italic*, [link](https://...).
+# - Quote any value that starts with * or contains ": " or " #".
+# - Each job/project lists its tech as  stack: "*Stack: ...*"  It prints after the bullets;
+#   leave the field out and nothing prints (layout: design.templates at the bottom).
+# - In a "|-" block every line prints as its own line; in a ">-" block the lines are joined into one paragraph.
+
+cv:
+  name: Arthur Vardanyan
+  headline: "Lead Software Engineer · C# .NET / Full Stack · Haskell · AI"
+  location: Yerevan, Armenia
+  email: artie.vard@gmail.com
+  # Left empty on purpose: build.py fills it from private.yaml (not committed). The empty key keeps the
+  # phone's place in the header, which lists contacts in the order of these keys.
+  phone:
+  social_networks:
+    - network: LinkedIn
+      username: arthur-vardanyan-aaa9572
+    - network: GitHub
+      username: ArthurVard
+
+  sections:
+    summary:
+      - >-
+        Lead software engineer with 20+ years of experience. In the current role, drove the move to
+        **PostgreSQL**, built the distributed processing service and multiple data connectors, and
+        developed an MCP server that lets AI assistants operate the platform. Strong in **C#/.NET**,
+        also **Haskell**. MSc in Mathematics.
+
+    # Rule: list only what you'd be happy to be interviewed on today.
+    # Older technologies stay visible in the experience entries where they were used.
+    technical_skills:
+      - label: .NET
+        details: C#, ASP.NET MVC, ASP.NET Core, Entity Framework, SignalR, WPF, WiX
+      - label: Data
+        details: PostgreSQL, SQL Server, Redis, Neo4j
+      - label: AI tooling
+        details: Claude Code (custom skills, project knowledge base), MCP, RAG
+      - label: Haskell & FP
+        details: Haskell (Servant, Scotty), Elm, Nix; learning TLA+ and Lean 4
+      - label: Tools
+        details: Docker, PowerShell, Git, Linux/NixOS, Terraform (basic)
+
+    experience:
+      # Veritas spun this business off as Arctera (Dec 2024); Cloud Software Group bought Arctera (Dec 2025).
+      # More bullets and the details behind these are in private.yaml.
+      - company: Cloud Software Group (Arctera, formerly Veritas)
+        position: Lead Cloud Software Developer # official job title
+        start_date: 2020-12
+        end_date: present
+        summary: "Merge1 (now Arctera Insight Capture): compliance archiving with 120+ connectors."
+        stack: "*Stack: C#, ASP.NET MVC, SignalR, PostgreSQL, SQL Server*"
+        highlights:
+          - Drove the move to **PostgreSQL** and made it the default database engine.
+          - Built the **Processor** service and rewrote the import engine on async/await.
+          - Developed the **MCP server** that lets AI assistants operate and troubleshoot Merge1.
+          - "Built connectors including **ChatGPT Enterprise**, **Dubber**, **NICE NTR-X**, **Verint** and **CellTrust**."
+
+      - company: Datasfer LLC
+        position: Self-employed Software Engineer
+        start_date: 2020-02
+        end_date: 2020-12
+        summary: "Client project StaffMinded: a staffing marketplace for pharmacists."
+        highlights:
+          - Main developer in a team of five (about three-quarters of 640+ commits).
+          - Built employer and pharmacist accounts and profiles, an admin area, Stripe payments, SendGrid and Amazon SES email, Excel exports and scheduled jobs.
+          - Containerized it with Docker, used Azure Blob/File Storage and Application Insights, and set up CI on Azure Pipelines and GitHub Actions.
+        stack: "*Stack: C#, ASP.NET Core, EF Core, Dapper, SQL Server, TypeScript, Docker, Azure*"
+
+      - company: HEX.TEAM
+        position: Haskell Developer
+        start_date: 2018-06
+        end_date: 2020-02
+        summary: >-
+          Contributed to [hschain](https://github.com/hexresearch/hschain), an open-source Haskell
+          framework for building blockchains with PBFT-style Byzantine-fault-tolerant consensus
+          ([my commits](https://github.com/hexresearch/hschain/commits?author=ArthurVard)).
+        stack: "*Stack: Haskell, Nix, Docker, Terraform*"
+        highlights:
+          - Implemented balanced Merkle trees and Merkle proofs of inclusion for block transactions, with tests.
+          - "Worked on consensus internals: proposer selection, validator sets with equal voting power, invariant checks on proposed blocks."
+          - Added TLS transport between nodes, fixed a TLS framing bug, and made network tests more robust.
+          - Improved Nix/Docker builds and the Terraform setup for multi-node test networks.
+
+      # Merge1 lineage: Ogma contracted for Globanet (Merge1's creator) -> Veritas acquired Globanet
+      # (announced 2020-09-28) -> Arctera spun off from Veritas (Dec 2024) -> CSG acquired Arctera (Dec 2025).
+      - company: Ogma Inc (contractor for Globanet)
+        position: Senior Software Engineer
+        start_date: 2016-02
+        end_date: 2018-09
+        stack: "*Stack: C#, ASP.NET MVC, SignalR*"
+        highlights:
+          - Built the Slack connector and added Cisco Jabber as a data source for Merge1, Globanet's compliance data-capture product (acquired by Veritas in 2020).
+
+      - company: Ministry of Education, Centralized Testing Center
+        position: Software Contractor / Consultant
+        start_date: 2012-04
+        end_date: 2016-02
+        stack: "*Stack: C#, SQL Server, ABBYY FormReader*"
+        highlights:
+          - Developed an automated system that assigns students to universities based on their ranked preferences and exam results.
+          - Built applications for managing the testing process and evaluating results, plus smaller support tools.
+
+    # Older roles as compact job entries (title line + one description line, years only).
+    earlier_experience:
+      - company: Freelance projects
+        position: Software Engineer
+        start_date: 2014
+        end_date: 2015
+        summary: Remote camera-access portal (C#, ASP.NET MVC), traffic-light controller tooling (C#, Ruby on Rails) and a SAS job runner (Haskell).
+      - company: Maxim Integrated Products
+        position: Software Contractor
+        start_date: 2011
+        end_date: 2012
+        summary: WPF/C# application for tuning, testing and production of touch sensors.
+      - company: DESY (via Yerevan Physics Institute)
+        position: Researcher / Engineer
+        location: Hamburg, Germany
+        date: 2009
+        summary: PETRA III accelerator software, a Silverlight/C# real-time power-supply monitor and a Java/C prototype for remote control of magnet cooling.
+      - company: AccuSoft Corp.
+        position: Software Engineer
+        start_date: 2005
+        end_date: 2008
+        summary: Image-processing and data-analysis solutions in C/C++.
+
+    # Built in free time for fun and learning ("pet projects").
+    personal_projects:
+      - name: Bible knowledge graph
+        start_date: 2019-05
+        end_date: present
+        stack: "*Stack: Haskell (Servant), PostgreSQL, Neo4j, Telegram Bot API*"
+        highlights:
+          - REST/GraphQL backend that exposes the Bible text as graph-structured data stored in Neo4j.
+          - Built a Telegram bot as the first client of the API.
+
+      - name: IoT devices with over-the-air firmware updates
+        start_date: 2017-03
+        end_date: 2018-06
+        stack: "*Stack: ATmega, GSM/GPRS · Haskell (Scotty), PostgreSQL, Redis · Rails, Elm, JavaScript*"
+        highlights:
+          - Co-developed, with an electrical engineer, a GSM/GPRS-connected device that pushes data to a server and receives commands over the internet.
+          - Designed over-the-air firmware updates for single devices or device groups; devices update themselves automatically.
+          - Prototyped GPS integration for real-time tracking.
+
+    # Only the highest degree, with the graduation year. Also: BSc in Mathematics, Yerevan State University, 1995-1999.
+    education:
+      - institution: Yerevan State University
+        area: Mathematics
+        degree: MSc
+        date: 2003
+
+    languages:
+      - Armenian (native), Russian (fluent), English (professional working proficiency)
+
+design:
+  # Built-in themes: classic, sb2nov, engineeringresumes, engineeringclassic, moderncv.
+  # Try one without editing this file:  python build.py --design.theme sb2nov
+  theme: classic
+  page:
+    size: us-letter # use a4 for Europe
+  typography:
+    alignment: left # justified text stretches word spacing in narrow columns
+    font_size:
+      body: 9.3pt # summary, skills, languages, descriptions; job/project titles are scaled back to 10pt below
+      section_titles: 14pt # keep the theme's heading size (its default 1.4em would follow the smaller body)
+  sections:
+    show_time_spans_in: [] # no "6 years" / "11 months" under the dates
+    space_between_text_based_entries: 0em # tight skill lines (also Earlier Experience bullets); default 0.3em
+  entries:
+    summary:
+      space_above: 0.1cm # gap between a title and its description line
+    highlights:
+      space_left: 0.4cm # bullet indent (default 0.15cm)
+      space_above: 0.1cm # gap above the first bullet
+  templates:
+    # Theme defaults plus a STACK line (the custom "stack" field) after the bullets, styled with raw Typst:
+    #   "#set text(1.0752688em)"        -> scales the entry back to 10pt (body is 9.3pt; 1.0752688 = 1/0.93),
+    #                                      so job/project titles are 10pt. Change it if you change body size;
+    #   "#show emph: set text(0.88em)"  -> stack line (the only italic text) at 88%, about 8.8pt;
+    #   "#show block: set text(0.93em)" -> description line and bullets at 93%, about 9.3pt;
+    #   "#v(3pt)"                       -> 3pt gap above the stack line.
+    # Gotchas: RenderCV escapes [ ] in templates, and mangles raw Typst placed after empty fields
+    # (e.g. an entry without a summary), so style rules go on the first line, before the title.
+    # build.py strips these Typst lines for the Markdown; the web page has its own style (web/style.css).
+    experience_entry:
+      main_column: |-
+        #set text(1.0752688em)
+        #show emph: set text(0.88em)
+        #show block: set text(0.93em)
+        **COMPANY**, POSITION
+        SUMMARY
+        HIGHLIGHTS
+        #v(3pt)
+        STACK
+    normal_entry:
+      main_column: |-
+        #set text(1.0752688em)
+        #show emph: set text(0.88em)
+        #show block: set text(0.93em)
+        **NAME**
+        SUMMARY
+        HIGHLIGHTS
+        #v(3pt)
+        STACK
+  header:
+    connections:
+      phone_number_format: international
+
+locale:
+  language: english
+  month_abbreviations: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]

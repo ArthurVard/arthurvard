@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+
+# Build outputs (python cv/build.py)
+rendercv_output/
+site/
+.*.plain.yaml
+
+# Private: phone number and notes for the CV, the old CV, drafts. Never committed.
+private.yaml
+private/
+
+~*
