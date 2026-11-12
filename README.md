@@ -8,5 +8,4 @@ Lead Software Engineer in Yerevan, Armenia. I build backend and data systems in 
 - MSc in Mathematics. Currently learning formal methods: **TLA+** and **Lean 4**.
 - Tools I enjoy: NixOS, Emacs, tmux.
 
-[LinkedIn](https://www.linkedin.com/in/arthur-vardanyan-aaa9572/)
-<!-- When the web CV is live, append to the line above:  · [CV](https://arthurvard.github.io) -->
+[LinkedIn](https://www.linkedin.com/in/arthur-vardanyan-aaa9572/) · [CV](https://arthurvard.github.io/arthurvard/)
